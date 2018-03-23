@@ -153,7 +153,7 @@ class SentryInitCommand extends Command
     {
         return [
             'dsn'                      => '',
-            'release'                  => 'trim(exec(\'git log --pretty="%h" -n1 HEAD\'))',
+            'release'                  => 'null',
             'breadcrumbs.sql_bindings' => true,
             'user_context'             => true,
         ];

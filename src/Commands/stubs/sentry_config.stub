@@ -42,10 +42,13 @@ return [
     | With this package we use application version instead git sha hash, so,
     | you don't need to set this value manually.
     |
+    | Example:
+    | exec('git --git-dir ' . base_path('.git') . ' log --pretty="%h" -n1 HEAD')
+    |
     | Documentation: <https://docs.sentry.io/learn/releases/>
     |
     */
-    //'release' => {{release}},
+    // 'release' => {{release}},
 
     /*
     |--------------------------------------------------------------------------
