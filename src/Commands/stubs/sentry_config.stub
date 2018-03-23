@@ -1,0 +1,70 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sentry Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Sentry is application for capturing exceptions (and any another data).
+    |
+    | Full documentation can be found here: <https://docs.sentry.io/quickstart>
+    |
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sentry DSN
+    |--------------------------------------------------------------------------
+    |
+    | After you complete setting up a project in Sentry, you’ll be given a
+    | value which we call a DSN, or Data Source Name. It looks a lot like a
+    | standard URL, but it’s actually just a representation of the
+    | configuration required by the Sentry SDKs.
+    |
+    | The DSN can be found in Sentry by navigating to
+    | [Project Name] -> Project Settings -> Client Keys (DSN)
+    |
+    | Example: 'https://<key>:<secret>@sentry.io/<project>'
+    |
+    */
+    'dsn' => env('SENTRY_DSN', '{{dsn}}'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Release Hash
+    |--------------------------------------------------------------------------
+    |
+    | Releases are used by Sentry to provide you with additional context when
+    | determining the cause of an issue.
+    |
+    | With this package we use application version instead git sha hash, so,
+    | you don't need to set this value manually.
+    |
+    | Documentation: <https://docs.sentry.io/learn/releases/>
+    |
+    */
+    //'release' => {{release}},
+
+    /*
+    |--------------------------------------------------------------------------
+    | Capture Bindings On SQL Queries
+    |--------------------------------------------------------------------------
+    |
+    | Possible values: true|false
+    |
+    */
+    'breadcrumbs.sql_bindings' => (bool) {{breadcrumbs_sql_bindings}},
+
+    /*
+    |--------------------------------------------------------------------------
+    | Capture default user context
+    |--------------------------------------------------------------------------
+    |
+    | Possible values: true|false
+    |
+    */
+    'user_context' => (bool) {{user_context}},
+
+];
