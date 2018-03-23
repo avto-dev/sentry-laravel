@@ -91,7 +91,9 @@ class SentryInitCommand extends Command
             ],
             [
                 $config['dsn'],
-                $config['release'],
+                empty($release = $config['release'])
+                    ? 'null'
+                    : "'{$release}'",
                 (bool) $config['breadcrumbs.sql_bindings']
                     ? 'true'
                     : 'false',
@@ -153,7 +155,7 @@ class SentryInitCommand extends Command
     {
         return [
             'dsn'                      => '',
-            'release'                  => 'null',
+            'release'                  => null,
             'breadcrumbs.sql_bindings' => true,
             'user_context'             => true,
         ];
