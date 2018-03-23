@@ -3,9 +3,9 @@
 namespace AvtoDev\Sentry;
 
 use AvtoDev\AppVersion\AppVersionServiceProvider;
+use Sentry\SentryLaravel\SentryLaravelServiceProvider;
 use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Sentry\SentryLaravel\SentryLaravelServiceProvider;
 
 /**
  * Class SentryServiceProvider.

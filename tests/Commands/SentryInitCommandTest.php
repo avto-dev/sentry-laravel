@@ -2,36 +2,18 @@
 
 namespace AvtoDev\Sentry\Tests\Commands;
 
-use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
-use AvtoDev\Sentry\Commands\SentryInitCommand;
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Filesystem\Filesystem;
 use Mockery as m;
 use Illuminate\Support\Str;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Console\Kernel;
+use AvtoDev\Sentry\Commands\SentryInitCommand;
+use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 
 /**
  * Class SentryInitCommandTest.
  */
 class SentryInitCommandTest extends AbstractCommandTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCommandSignature()
-    {
-        return 'sentry:init';
-    }
-
-    /**
-     * Get config stubs directory path.
-     *
-     * @return string
-     */
-    protected function getStubConfigsDirectoryPath()
-    {
-        return realpath(__DIR__ . '/../stubs/config');
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -125,5 +107,23 @@ class SentryInitCommandTest extends AbstractCommandTestCase
         $this->assertNotZero($this->artisan($this->getCommandSignature(), [
             '--configs-path' => $configs_dir,
         ]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCommandSignature()
+    {
+        return 'sentry:init';
+    }
+
+    /**
+     * Get config stubs directory path.
+     *
+     * @return string
+     */
+    protected function getStubConfigsDirectoryPath()
+    {
+        return realpath(__DIR__ . '/../stubs/config');
     }
 }

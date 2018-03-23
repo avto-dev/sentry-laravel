@@ -2,9 +2,9 @@
 
 namespace AvtoDev\Sentry\Tests\Traits;
 
+use Illuminate\Contracts\Console\Kernel;
 use AvtoDev\Sentry\SentryServiceProvider;
 use AvtoDev\Sentry\Tests\Bootstrap\TestsBootstraper;
-use Illuminate\Contracts\Console\Kernel;
 
 trait CreatesApplicationTrait
 {
@@ -52,7 +52,6 @@ trait CreatesApplicationTrait
                 $app->register($service_provider);
             }
         }
-
 
         return $app;
     }

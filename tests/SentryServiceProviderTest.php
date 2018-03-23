@@ -2,11 +2,11 @@
 
 namespace AvtoDev\Sentry\Tests;
 
-use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Raven_Client;
-use AvtoDev\AppVersion\AppVersionServiceProvider;
 use AvtoDev\Sentry\SentryServiceProvider;
+use AvtoDev\AppVersion\AppVersionServiceProvider;
 use Sentry\SentryLaravel\SentryLaravelServiceProvider;
+use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 
 /**
  * Class SentryServiceProviderTest.

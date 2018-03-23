@@ -2,10 +2,10 @@
 
 namespace AvtoDev\Sentry\Commands;
 
-use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
+use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 
 /**
  * Class SentryInitCommand.

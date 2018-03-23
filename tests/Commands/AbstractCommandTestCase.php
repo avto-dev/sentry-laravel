@@ -22,6 +22,7 @@ abstract class AbstractCommandTestCase extends AbstractTestCase
             sprintf('Command "%s" does not return help message', $signature)
         );
     }
+
     /**
      * @return Kernel|\App\Console\Kernel
      */
@@ -29,6 +30,7 @@ abstract class AbstractCommandTestCase extends AbstractTestCase
     {
         return $this->app->make(Kernel::class);
     }
+
     /**
      * Command signature.
      *

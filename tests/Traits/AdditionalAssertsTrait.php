@@ -57,7 +57,7 @@ trait AdditionalAssertsTrait
      */
     public function assertZero($value)
     {
-        $this->assertEquals(0 , $value , 'Must be zero');
+        $this->assertEquals(0, $value, 'Must be zero');
     }
 
     /**
@@ -69,6 +69,6 @@ trait AdditionalAssertsTrait
      */
     public function assertNotZero($value)
     {
-        $this->assertNotEquals(0 , $value , 'Must not equals zero');
+        $this->assertNotEquals(0, $value, 'Must not equals zero');
     }
 }
