@@ -48,7 +48,7 @@ return [
     | Documentation: <https://docs.sentry.io/learn/releases/>
     |
     */
-    // 'release' => {{release}},
+    //'release' => {{release}},
 
     /*
     |--------------------------------------------------------------------------
