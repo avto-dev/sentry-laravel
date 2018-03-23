@@ -18,7 +18,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "laravel/framework": ">=5.4.0 <5.7.0",
-        "sentry/sentry-laravel": "^0.8",
+        "sentry/sentry-laravel": "^0.7",
         "avto-dev/app-version-laravel": "^1.1"
     },
     "require-dev": {
