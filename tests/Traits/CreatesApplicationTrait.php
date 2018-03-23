@@ -27,7 +27,7 @@ trait CreatesApplicationTrait
      *
      * @return \Illuminate\Foundation\Application
      */
-    public function createApplication($service_providers = [])
+    public function createApplication()
     {
         /** @var \Illuminate\Foundation\Application $app */
         $app = require __DIR__ . '/../../vendor/laravel/laravel/bootstrap/app.php';
@@ -36,6 +36,12 @@ trait CreatesApplicationTrait
         $app->configPath(TestsBootstraper::getStorageDirectoryPath());
 
         $app->make(Kernel::class)->bootstrap();
+
+        $service_providers = [];
+
+        if (func_num_args() === 1) {
+            $service_providers = func_get_args()[0];
+        }
 
         if (! is_null($service_providers)) {
             $service_providers = empty($service_providers)
