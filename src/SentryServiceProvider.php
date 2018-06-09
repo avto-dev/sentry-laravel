@@ -7,18 +7,8 @@ use Sentry\SentryLaravel\SentryLaravelServiceProvider;
 use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-/**
- * Class SentryServiceProvider.
- */
 class SentryServiceProvider extends IlluminateServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
     /**
      * Bootstrap any application services.
      *

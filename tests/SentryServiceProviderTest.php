@@ -8,9 +8,6 @@ use AvtoDev\AppVersion\AppVersionServiceProvider;
 use Sentry\SentryLaravel\SentryLaravelServiceProvider;
 use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 
-/**
- * Class SentryServiceProviderTest.
- */
 class SentryServiceProviderTest extends AbstractTestCase
 {
     /**

@@ -7,9 +7,6 @@ use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputOption;
 use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 
-/**
- * Class SentryInitCommand.
- */
 class SentryInitCommand extends Command
 {
     /**
@@ -78,11 +75,11 @@ class SentryInitCommand extends Command
         $default_config = $this->getDefaultConfig();
 
         $config = $this->files->exists($sentry_config_file_path = $configs_path . '/sentry.php')
-            ? array_replace_recursive($default_config, (array) require $sentry_config_file_path)
+            ? \array_replace_recursive($default_config, (array) require $sentry_config_file_path)
             : $default_config;
 
         // Prepare stub content
-        $stub = str_replace(
+        $stub = \str_replace(
             [
                 '{{dsn}}',
                 '{{release}}',
