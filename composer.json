@@ -16,7 +16,7 @@
     "require": {
         "php": "^5.6 || >=7.0 <7.3",
         "laravel/framework": ">=5.4.0 <5.7.0",
-        "sentry/sentry-laravel": "^0.7",
+        "sentry/sentry-laravel": "^0.10",
         "avto-dev/app-version-laravel": "^1.2"
     },
     "require-dev": {

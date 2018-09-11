@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.0
+
+### Changed
+
+- Up minimal sentry package version
+
 ## v1.1.0
 
 ### Changed
