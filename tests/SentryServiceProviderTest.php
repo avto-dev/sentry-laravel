@@ -68,7 +68,7 @@ class SentryServiceProviderTest extends AbstractTestCase
         /** @var Raven_Client $sentry */
         $sentry = $this->app->make('sentry');
         /** @var AppVersionManagerContract $version */
-        $version = $this->app->make('app.version.manager');
+        $version = $this->app->make(AppVersionManagerContract::class);
 
         $this->assertEquals($version->formatted(), $sentry->getRelease());
     }

@@ -81,7 +81,7 @@ class SentryServiceProvider extends IlluminateServiceProvider
      */
     protected function serviceProviderForAppVersionIsLoaded()
     {
-        return $this->app->bound(AppVersionServiceProvider::VERSION_MANAGER_ALIAS) === true;
+        return $this->app->bound(AppVersionManagerContract::class) === true;
     }
 
     /**
