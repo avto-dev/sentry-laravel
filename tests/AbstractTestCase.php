@@ -2,10 +2,10 @@
 
 namespace AvtoDev\Sentry\Tests;
 
-use AvtoDev\AppVersion\ServiceProvider as AppVersionServiceProvider;
 use AvtoDev\Sentry\ServiceProvider;
 use Illuminate\Contracts\Console\Kernel;
 use Sentry\Laravel\ServiceProvider as SentryLaravelServiceProvider;
+use AvtoDev\AppVersion\ServiceProvider as AppVersionServiceProvider;
 
 abstract class AbstractTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
