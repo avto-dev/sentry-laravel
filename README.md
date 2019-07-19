@@ -8,67 +8,212 @@
 [![Version][badge_php_version]][link_packagist]
 [![Build Status][badge_build_status]][link_build_status]
 [![Coverage][badge_coverage]][link_coverage]
-[![Code quality][badge_code_quality]][link_code_quality]
 [![Downloads count][badge_downloads_count]][link_packagist]
 [![License][badge_license]][link_license]
 
-Данный пакет предназначен для того, чтоб упростить работу c Sentry, так как:
+This package allows you to:
 
- - Данные, отправляемые на сервер Sentry "подписываются" текущей версией приложения (которую возвращает пакет `avto-dev/app-version-laravel`);
- - Конфигурационный файл `./config/sentry.php` имеет более подробную документацию.
+- Integrate package [`avto-dev/app-version-laravel`][package_app_version] with [`sentry/sentry-laravel`][package_sentry_laravel].
 
-## Установка
+> Full documentation can be [found here][sentry_php_docs]
 
-Для установки данного пакета выполните в терминале следующую команду:
+## Install
 
-```shell
-$ composer require avto-dev/sentry-laravel "^1.3"
+Require this package with composer using the following command:
+
+```bash
+$ composer require avto-dev/sentry-laravel "^2.0"
 ```
 
-> Для этого необходим установленный `composer`. Для его установки перейдите по [данной ссылке][getcomposer].
+> Installed `composer` is required ([how to install composer][getcomposer]).
 
-> Обратите внимание на то, что необходимо фиксировать мажорную версию устанавливаемого пакета.
+> You need to fix the major version of package.
 
-Если вы используете Laravel версии 5.5 и выше, то сервис-провайдер данного пакета будет зарегистрирован автоматически. В противном случае вам необходимо самостоятельно зарегистрировать сервис-провайдер в секции `providers` файла `./config/app.php`:
+> If you wants to disable package service-provider auto discover, just add into your `composer.json` next lines:
+>
+> ```json
+> {
+>     "extra": {
+>         "laravel": {
+>             "dont-discover": [
+>                 "avto-dev/sentry-laravel"
+>             ]
+>         }
+>     }
+> }
+> ```
+
+Add Sentry reporting to `./app/Exceptions/Handler.php`:
 
 ```php
-'providers' => [
+<?php
+
+namespace App\Exceptions;
+
+class Handler extends \Illuminate\Foundation\Exceptions\Handler
+{
     // ...
-    AvtoDev\Sentry\SentryServiceProvider::class,
-]
+    
+    /**
+     * Report or log an exception.
+     *
+     * @param \Exception $exception
+     *
+     * @return void
+     */
+    public function report(\Exception $exception): void
+    {
+        if ($this->container->bound('sentry') && $this->shouldReport($exception)) {
+            try {
+                $this->container->make('sentry')->captureException($exception);
+            } catch (\Exception $e) {
+                $this->container->make(\Psr\Log\LoggerInterface::class)->error(
+                    'Cannot capture exception with sentry: ' . $e->getMessage(), ['exception' => $e]
+                );
+            }
+        }
+
+        parent::report($exception);
+    }
+    
+    // ...
+}
 ```
 
-Установив данный пакет в ваше приложение также будут установлены следующие:
+Create the Sentry configuration file (`./config/sentry.php`) with this command:
 
- 1. **[avto-dev/app-version-laravel][package_app_version]** - менеджер версии Laravel-приложения;
- 1. **[sentry/sentry-laravel][package_sentry_laravel]** - клиент для работы с Sentry.
+> If you already have `./config/sentry.php` file - rename it using next command:
+> ```bash
+> $ test -f ./config/sentry.php && mv ./config/sentry.php ./config/sentry.php.old
+> ```
 
-Сервис-провайдеры которых будут зарегистрированы автоматически, вам остается только опубликовать конфигурационный файл пакета `avto-dev/app-version-laravel` с помощью команды:
-
-```shell
-$ php artisan vendor:publish --provider="AvtoDev\\AppVersion\\AppVersionServiceProvider"
+```bash
+$ php artisan vendor:publish --tag=sentry-config --force
 ```
 
-И произвести инициализацию конфигурационного файла Sentry (если конфигурационный файл `./config/sentry.php` уже присутствует - он будет обновлён, сохранив ранее установленные значения и предварительно создав резервную копию рядом):
+And edit it on your choice.
 
-```shell
-$ php artisan sentry:init
+### Testing with Artisan
+
+You can test your configuration using the provided `artisan` command:
+
+```bash
+$ php artisan sentry:test
+[sentry] Client DSN discovered!
+[sentry] Generating test event
+[sentry] Sending test event
+[sentry] Event sent: e6442bd7806444fc8b2710abce3599ac
 ```
 
-Если пакет `sentry/sentry-laravel` ранее не был проинтегрирован в ваше приложение - пожалуйста, **произведите его интеграцию** согласно [описанию в его репозитории][package_sentry_laravel]. В противном случае просто удалите зависимость `sentry/sentry-laravel` из вашего `composer.json` *(за его наличие и управление версией отвечает данный пакет)*.
+## Local development
 
-## Использование
+When Sentry is installed in your application it will also be active when you are developing.
 
-Так как основное предназначение данного пакета - произвести "связывание" двух других - он не имеет каких-либо особенностей в эксплуатации.
+If you don't want errors to be sent to Sentry when you are developing set the DSN value to `null` (define `SENTRY_LARAVEL_DSN=null` in your `.env` file).
+
+## Using Laravel log channels
+
+> Note: If you’re using log channels to log your exceptions and are also logging exceptions to Sentry in your exception handler (as you would have configured above) exceptions might end up twice in Sentry
+
+To configure Sentry as a log channel, add the following config to the `channels` section in `./config/logging.php`:
+
+```php
+<?php
+
+return [
+    'channels' => [
+        
+        // ...
+        
+        'sentry' => [
+            'driver' => 'sentry',
+        ],
+    ],
+];
+```
+
+After you configured the Sentry log channel, you can configure your app to both log to a log file and to Sentry by modifying the log stack:
+
+```php
+<?php
+
+return [
+    'channels' => [
+        
+        'stack' => [
+            'driver'   => 'stack',
+            'channels' => ['single', 'sentry'], // Add the Sentry log channel to the stack
+        ],
+        
+        // ...
+    ],
+];
+```
+
+Optionally, you can set the logging level and if events should bubble on the driver:
+
+
+And modify next lines:
+
+```php
+<?php
+
+return [
+    'channels' => [
+        
+        // ...
+        
+        'sentry' => [
+            'driver' => 'sentry',
+            'level'  => null, // The minimum monolog logging level at which this handler will be triggered
+                              // For example: `\Monolog\Logger::ERROR`
+            'bubble' => true, // Whether the messages that are handled can bubble up the stack or not
+        ],
+    ],
+];
+```
+
+### Naming you log channels
+
+If you have multiple log channels you would like to filter on inside the Sentry interface, you can add the `name` attribute to the log channel. It will show up in Sentry as the `logger` tag, which is filterable.
+
+For example:
+
+```php
+<?php
+
+return [
+    'channels' => [
+        
+        // ...
+        
+        'my_stacked_channel' => [
+            'driver'   => 'stack',
+            'channels' => ['single', 'sentry'],
+            'name'     => 'my-channel'
+        ],
+    ],
+];
+```
+
+You’re now able to log errors to your channel:
+
+```php
+<?php
+
+\Illuminate\Support\Facades\Log::channel('my_stacked_channel')->error('My error');
+```
+
+And Sentry's `logger` tag now has the channel's `name`. You can filter on the "my-channel" value.
 
 ### Testing
 
-For package testing we use `phpunit` framework. Just write into your terminal:
+For package testing we use `phpunit` framework and `docker-ce` + `docker-compose` as develop environment. So, just write into your terminal after repository cloning:
 
-```shell
-$ git clone git@github.com:avto-dev/sentry-laravel.git ./sentry-laravel && cd $_
-$ composer install
-$ composer test
+```bash
+$ make build
+$ make latest # or 'make lowest'
+$ make test
 ```
 
 ## Changes log
@@ -92,7 +237,6 @@ This is open-sourced software licensed under the [MIT License][link_license].
 [badge_packagist_version]:https://img.shields.io/packagist/v/avto-dev/sentry-laravel.svg?maxAge=180
 [badge_php_version]:https://img.shields.io/packagist/php-v/avto-dev/sentry-laravel.svg?longCache=true
 [badge_build_status]:https://travis-ci.org/avto-dev/sentry-laravel.svg?branch=master
-[badge_code_quality]:https://img.shields.io/scrutinizer/g/avto-dev/sentry-laravel.svg?maxAge=180
 [badge_coverage]:https://img.shields.io/codecov/c/github/avto-dev/sentry-laravel/master.svg?maxAge=60
 [badge_downloads_count]:https://img.shields.io/packagist/dt/avto-dev/sentry-laravel.svg?maxAge=180
 [badge_license]:https://img.shields.io/packagist/l/avto-dev/sentry-laravel.svg?longCache=true
@@ -105,16 +249,12 @@ This is open-sourced software licensed under the [MIT License][link_license].
 [link_build_status]:https://travis-ci.org/avto-dev/sentry-laravel
 [link_coverage]:https://codecov.io/gh/avto-dev/sentry-laravel/
 [link_changes_log]:https://github.com/avto-dev/sentry-laravel/blob/master/CHANGELOG.md
-[link_code_quality]:https://scrutinizer-ci.com/g/avto-dev/sentry-laravel/
 [link_issues]:https://github.com/avto-dev/sentry-laravel/issues
 [link_create_issue]:https://github.com/avto-dev/sentry-laravel/issues/new/choose
 [link_commits]:https://github.com/avto-dev/sentry-laravel/commits
 [link_pulls]:https://github.com/avto-dev/sentry-laravel/pulls
 [link_license]:https://github.com/avto-dev/sentry-laravel/blob/master/LICENSE
-[smspilot_home]:https://smspilot.ru/
-[smspilot_get_api_key]:https://smspilot.ru/my-settings.php#api
-[smspilot_sender_names]:https://smspilot.ru/my-sender.php
-[laravel_notifications]:https://laravel.com/docs/5.5/notifications
 [getcomposer]:https://getcomposer.org/download/
 [package_app_version]:https://github.com/avto-dev/app-version-laravel
 [package_sentry_laravel]:https://github.com/getsentry/sentry-laravel
+[sentry_php_docs]:https://docs.sentry.io/platforms/php/laravel/

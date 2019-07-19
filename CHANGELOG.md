@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog] and this project adheres to [Semantic Versioning][semver].
 
+## v2.0.0
+
+### Added
+
+- Docker-based environment for development
+- Project `Makefile`
+
+### Changed
+
+- Minimal `PHP` version now is `^7.1.3`
+- Minimal `Laravel` version now is `5.6.x`
+- Maximal `Laravel` version now is `5.8.x`
+- Dependency `laravel/framework` changed to `illuminate/*`
+- `\AvtoDev\Sentry\SentryServiceProvider` &rarr; `\AvtoDev\Sentry\ServiceProvider`
+- Composer scripts
+- `sentry.php` config file stub
+- Package service-provider don't register service-providers from another packages
+- Package `avto-dev/app-version-laravel` is optional dependency now
+
+### Removed
+
+- Artisan command `sentry:init`
+
 ## v1.3.1
 
 ### Changed
