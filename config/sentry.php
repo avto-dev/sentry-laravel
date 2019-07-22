@@ -35,7 +35,7 @@ return [
     | Most SDKs will attempt to auto-discover this value
     |
     */
-    'server_name' => env('SERVER_NAME', \gethostname()),
+    'server_name' => env('APP_SERVER_NAME', \gethostname()),
 
     /*
     |--------------------------------------------------------------------------

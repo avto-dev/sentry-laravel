@@ -22,7 +22,7 @@ This package allows you to:
 Require this package with composer using the following command:
 
 ```bash
-$ composer require avto-dev/sentry-laravel "^2.0"
+$ composer require avto-dev/sentry-laravel "^2.1"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).

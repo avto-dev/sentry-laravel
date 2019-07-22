@@ -27,7 +27,7 @@ class ConfigFileTest extends AbstractTestCase
      */
     public function testServerNameReadsFromEnvironment(): void
     {
-        putenv('SERVER_NAME=foo_bar_123');
+        \putenv('APP_SERVER_NAME=foo_bar_123');
 
         $config = require __DIR__ . '/../config/sentry.php';
 
