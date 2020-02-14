@@ -42,7 +42,6 @@ abstract class AbstractTestCase extends \Illuminate\Foundation\Testing\TestCase
             ? \func_get_args()
             : self::getDefaultServiceProviders();
 
-
         if (\interface_exists(AppVersionManagerV3::class)) {
             $app->extend(AppVersionManagerV3::class, static function (): AppVersionManagerV3 {
                 return new \AvtoDev\AppVersion\AppVersionManager(new \AvtoDev\AppVersion\Repositories\NullRepository);
