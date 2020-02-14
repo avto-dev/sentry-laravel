@@ -22,26 +22,12 @@ This package allows you to:
 Require this package with composer using the following command:
 
 ```bash
-$ composer require avto-dev/sentry-laravel "^2.1"
+$ composer require avto-dev/sentry-laravel "^2.3"
 ```
 
 > Installed `composer` is required ([how to install composer][getcomposer]).
 
 > You need to fix the major version of package.
-
-> If you wants to disable package service-provider auto discover, just add into your `composer.json` next lines:
->
-> ```json
-> {
->     "extra": {
->         "laravel": {
->             "dont-discover": [
->                 "avto-dev/sentry-laravel"
->             ]
->         }
->     }
-> }
-> ```
 
 Add Sentry reporting to `./app/Exceptions/Handler.php`:
 
@@ -83,6 +69,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
 Create the Sentry configuration file (`./config/sentry.php`) with this command:
 
 > If you already have `./config/sentry.php` file - rename it using next command:
+>
 > ```bash
 > $ test -f ./config/sentry.php && mv ./config/sentry.php ./config/sentry.php.old
 > ```

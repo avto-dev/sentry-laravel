@@ -16,7 +16,7 @@ class ConfigFileTest extends AbstractTestCase
     {
         $config = require __DIR__ . '/../config/sentry.php';
 
-        $this->assertInternalType('string', $config['dsn']);
+        $this->assertIsString($config['dsn']);
         $this->assertNotEmpty($config['dsn']);
 
         $this->assertSame(\gethostname(), $config['server_name']);

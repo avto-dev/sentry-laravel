@@ -6,7 +6,6 @@ namespace AvtoDev\Sentry;
 
 use Sentry\State\Hub;
 use Illuminate\Container\Container;
-use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Sentry\Laravel\ServiceProvider as SentryServiceProvider;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -30,7 +29,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/sentry.php' => config_path(SentryServiceProvider::$abstract . '.php'),
+                \dirname(__DIR__) . '/config/sentry.php' => config_path(SentryServiceProvider::$abstract . '.php'),
             ], 'sentry-config');
         }
     }
@@ -45,11 +44,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function getApplicationVersion(Container $container): ?string
     {
         // Install package 'avto-dev/app-version-laravel' for release version providing
-        if ($container->bound(AppVersionManagerContract::class)) {
-            /** @var AppVersionManagerContract $manager */
-            $manager = $container->make(AppVersionManagerContract::class);
 
-            return $manager->formatted();
+        // @link: <https://github.com/avto-dev/app-version-laravel/blob/v2.1.0/src/Contracts/AppVersionManagerContract.php>
+        if (\interface_exists($v2 = 'AvtoDev\\AppVersion\\Contracts\\AppVersionManagerContract')) {
+            if ($container->bound($v2)) {
+                return $container->make($v2)->formatted();
+            }
+        }
+
+        // @link: <https://github.com/avto-dev/app-version-laravel/blob/v3.0.0/src/AppVersionManagerInterface.php>
+        if (\interface_exists($v3 = 'AvtoDev\\AppVersion\\AppVersionManagerInterface')) {
+            if ($container->bound($v3)) {
+                return $container->make($v3)->version();
+            }
         }
 
         return null;

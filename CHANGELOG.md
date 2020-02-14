@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog][keepachangelog] and this project adheres to [Semantic Versioning][semver].
 
+## v2.3.0
+
+### Added
+
+- PHP version `7.4` supports
+- Package `avto-dev/app-version-laravel` version `~3.0` supports
+
 ## v2.2.0
 
 ### Changed

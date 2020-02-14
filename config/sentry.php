@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Sentry DSN
@@ -21,6 +20,7 @@ return [
     | <https://docs.sentry.io/error-reporting/configuration/?platform=php>
     |
     */
+
     'dsn' => env('SENTRY_DSN', '---> PUT YOUR SENTRY DSN HERE <---'),
 
     /*
@@ -35,6 +35,7 @@ return [
     | Most SDKs will attempt to auto-discover this value
     |
     */
+
     'server_name' => env('APP_SERVER_NAME', \gethostname()),
 
     /*
@@ -54,6 +55,7 @@ return [
     | Documentation: <https://docs.sentry.io/learn/releases/>
     |
     */
+
     //'release' => env('APP_VERSION'),
 
     /*
@@ -67,6 +69,7 @@ return [
     | picked randomly.
     |
     */
+
     //'sample_rate' => 1.0,
 
     /*
@@ -78,6 +81,7 @@ return [
     | captured. This defaults to 100.
     |
     */
+
     //'max_breadcrumbs' => 100,
 
     /*
@@ -97,6 +101,7 @@ return [
     | This feature is off by default.
     |
     */
+
     //'attach_stacktrace' => true,
 
     /*
@@ -113,6 +118,7 @@ return [
     | Docs: <https://docs.sentry.io/platforms/php/laravel/#user-context>
     |
     */
+
     //'send_default_pii' => true,
 
     /*
@@ -128,6 +134,6 @@ return [
     | http_proxy environment variable will be picked up.
     |
     */
-    //'http_proxy' => null,
 
+    //'http_proxy' => null,
 ];
