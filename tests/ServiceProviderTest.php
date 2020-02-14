@@ -33,7 +33,7 @@ class ServiceProviderTest extends AbstractTestCase
             );
         } else {
             $this->assertSame(
-                $this->app->make(AppVersionManagerV3::class)->formatted(),
+                $this->app->make(AppVersionManagerV3::class)->version(),
                 $sentry->getClient()->getOptions()->getRelease()
             );
         }
