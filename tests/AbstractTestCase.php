@@ -6,6 +6,7 @@ use AvtoDev\Sentry\ServiceProvider;
 use Illuminate\Contracts\Console\Kernel;
 use Sentry\Laravel\ServiceProvider as SentryLaravelServiceProvider;
 use AvtoDev\AppVersion\ServiceProvider as AppVersionServiceProvider;
+use AvtoDev\AppVersion\AppVersionManagerInterface as AppVersionManagerV3;
 
 abstract class AbstractTestCase extends \Illuminate\Foundation\Testing\TestCase
 {
@@ -40,6 +41,13 @@ abstract class AbstractTestCase extends \Illuminate\Foundation\Testing\TestCase
         $service_providers = \func_num_args() >= 1
             ? \func_get_args()
             : self::getDefaultServiceProviders();
+
+
+        if (\interface_exists(AppVersionManagerV3::class)) {
+            $app->extend(AppVersionManagerV3::class, static function (): AppVersionManagerV3 {
+                return new \AvtoDev\AppVersion\AppVersionManager(new \AvtoDev\AppVersion\Repositories\NullRepository);
+            });
+        }
 
         foreach ($service_providers as $service_provider) {
             $app->register($service_provider);

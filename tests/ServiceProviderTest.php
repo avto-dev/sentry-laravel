@@ -7,8 +7,9 @@ namespace AvtoDev\Sentry\Tests;
 use Sentry\Client;
 use Sentry\State\Hub;
 use AvtoDev\Sentry\ServiceProvider;
-use AvtoDev\AppVersion\Contracts\AppVersionManagerContract;
 use Sentry\Laravel\ServiceProvider as SentryLaravelServiceProvider;
+use AvtoDev\AppVersion\AppVersionManagerInterface as AppVersionManagerV3;
+use AvtoDev\AppVersion\Contracts\AppVersionManagerContract as AppVersionManagerV2;
 
 /**
  * @covers \AvtoDev\Sentry\ServiceProvider
@@ -25,10 +26,17 @@ class ServiceProviderTest extends AbstractTestCase
 
         $this->assertInstanceOf(Client::class, $sentry->getClient());
 
-        $this->assertSame(
-            $this->app->make(AppVersionManagerContract::class)->formatted(),
-            $sentry->getClient()->getOptions()->getRelease()
-        );
+        if (\interface_exists(AppVersionManagerV2::class)) {
+            $this->assertSame(
+                $this->app->make(AppVersionManagerV2::class)->formatted(),
+                $sentry->getClient()->getOptions()->getRelease()
+            );
+        } else {
+            $this->assertSame(
+                $this->app->make(AppVersionManagerV3::class)->formatted(),
+                $sentry->getClient()->getOptions()->getRelease()
+            );
+        }
     }
 
     /**
@@ -68,6 +76,26 @@ class ServiceProviderTest extends AbstractTestCase
 
         $this->assertNull(
             $sentry->getClient()->getOptions()->getRelease()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testRegisterConfigs(): void
+    {
+        $package_config_src    = \realpath(__DIR__ . '/../config/sentry.php');
+        $package_config_target = $this->app->configPath('sentry.php');
+
+        $this->assertSame(
+            $package_config_target,
+            ServiceProvider::$publishes[ServiceProvider::class][$package_config_src]
+        );
+
+        $this->assertSame(
+            $package_config_target,
+            ServiceProvider::$publishGroups['sentry-config'][$package_config_src],
+            "Publishing group value {$package_config_target} was not found"
         );
     }
 }
