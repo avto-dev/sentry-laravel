@@ -39,7 +39,7 @@ namespace App\Exceptions;
 class Handler extends \Illuminate\Foundation\Exceptions\Handler
 {
     // ...
-    
+
     /**
      * Report or log an exception.
      *
@@ -61,7 +61,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
 
         parent::report($exception);
     }
-    
+
     // ...
 }
 ```
@@ -109,9 +109,9 @@ To configure Sentry as a log channel, add the following config to the `channels`
 
 return [
     'channels' => [
-        
+
         // ...
-        
+
         'sentry' => [
             'driver' => 'sentry',
         ],
@@ -126,12 +126,12 @@ After you configured the Sentry log channel, you can configure your app to both 
 
 return [
     'channels' => [
-        
+
         'stack' => [
             'driver'   => 'stack',
             'channels' => ['single', 'sentry'], // Add the Sentry log channel to the stack
         ],
-        
+
         // ...
     ],
 ];
@@ -147,9 +147,9 @@ And modify next lines:
 
 return [
     'channels' => [
-        
+
         // ...
-        
+
         'sentry' => [
             'driver' => 'sentry',
             'level'  => null, // The minimum monolog logging level at which this handler will be triggered
@@ -171,9 +171,9 @@ For example:
 
 return [
     'channels' => [
-        
+
         // ...
-        
+
         'my_stacked_channel' => [
             'driver'   => 'stack',
             'channels' => ['single', 'sentry'],
@@ -233,7 +233,7 @@ This is open-sourced software licensed under the [MIT License][link_license].
 [badge_pulls]:https://img.shields.io/github/issues-pr/avto-dev/sentry-laravel.svg?style=flat-square&maxAge=180
 [link_releases]:https://github.com/avto-dev/sentry-laravel/releases
 [link_packagist]:https://packagist.org/packages/avto-dev/sentry-laravel
-[link_build_status]:https://travis-ci.org/avto-dev/sentry-laravel
+[link_build_status]:https://github.com/avto-dev/sentry-laravel/actions
 [link_coverage]:https://codecov.io/gh/avto-dev/sentry-laravel/
 [link_changes_log]:https://github.com/avto-dev/sentry-laravel/blob/master/CHANGELOG.md
 [link_issues]:https://github.com/avto-dev/sentry-laravel/issues
